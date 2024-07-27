@@ -15,8 +15,24 @@ sensor = DHT11(sensor_pin)
 
 def cb(topic, msg):
 #     print(f"Topic: {topic}, Message: {msg}")
-    if topic == b"mytopic":
-        print("Message from mytopic")
+    if topic == b"direction":
+        if msg ==b"forward":
+            print("Message from direction",msg) 
+            #your forward function
+        elif msg ==b"backward":
+            print("Message from direction",msg) 
+            #your backward function
+        elif msg ==b"left":
+            print("Message from direction",msg) 
+            #your  left
+        elif msg ==b"right":
+            print("Message from direction",msg) 
+            #your right
+        elif msg ==b"stop":
+            print("Message from direction",msg) 
+            #your stop
+
+
     
 
 def main():
@@ -25,9 +41,12 @@ def main():
         client = connect_mqtt(mqtt_server, mqtt_user, mqtt_pass)
 
         client.set_callback(cb)
-        # client.subscribe("mytopic")
-
+        client.subscribe("direction")
         while True:
+            client.check_msg()
+        #     sleep(1)
+
+        # while True:
             sensor.measure()
             temp = sensor.temperature()
             humidity = sensor.humidity()
