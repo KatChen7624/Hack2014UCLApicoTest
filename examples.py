@@ -44,8 +44,23 @@ def cb(topic, msg):
             print("Message from direction",msg) 
             #your stop
 
-
+    elif topic == b"arm":
+        if msg == b"armup":
+            print("Message from arm",msg)
+            # your arm up function
+        elif msg == b"armdown":
+            print("Message from arm",msg)
+            # your arm down function
     
+    elif topic == b"pinch":
+        if msg == b"handopen":
+            print("Message from Pinch",msg)
+            # your open hand function
+        elif msg == b"handclose":
+             print("Message from Pinch",msg)
+            # your close hand function
+
+
 
 def main():
     try:
@@ -54,6 +69,8 @@ def main():
 
         client.set_callback(cb)
         client.subscribe("direction")
+        client.subscribe("arm")
+        client.subscribe("pinch")
         while True:
             client.check_msg()
             sensor.measure()
@@ -76,10 +93,10 @@ def main():
                 "front": distance_front,
                 "back": distance_back
             }
-            print ("temp:",temp)
-            print ("humidity",humidity)
-            print ('Distance front:', distance_front, 'cm')
-            print ("Distance back:", distance_back, 'cm')
+            # print ("temp:",temp)
+            # print ("humidity",humidity)
+            # print ('Distance front:', distance_front, 'cm')
+            # print ("Distance back:", distance_back, 'cm')
             message = ujson.dumps(data)
             ultraMessage=ujson.dumps(ultraData)
             client.publish("temp&&humidity", message)
